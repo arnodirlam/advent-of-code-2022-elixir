@@ -51,4 +51,52 @@ defmodule Aoc.Day02 do
     input()
     |> answer()
   end
+
+  @doc """
+  Same as `answer/1`, except the second part of each string represents the outcome: lose, draw, win.
+  A score is computed for each string, and the sum of all scores returned.
+
+  ## Examples
+
+      iex> answer2([["A", "Y"], ["B", "X"], ["C", "Z"]])
+      12
+
+      iex> answer2([["A", "Z"]])
+      2 + 6
+
+      iex> answer2([["A", "Z"], ["C", "Y"]])
+      2 + 6 + 3 + 3
+
+      iex> answer2([["A", "Z"], ["C", "Y"], ["A", "X"]])
+      2 + 6 + 3 + 3 + 3 + 0
+
+      iex> answer2([["A", "X"], ["B", "Z"], ["B", "Z"], ["C", "X"]])
+      3 + 0 + 3 + 6 + 3 + 6 + 2 + 0
+  """
+  def answer2(enum) do
+    Enum.reduce(enum, 0, fn
+      [left, outcome], total -> score(response(left, outcome)) + score_result(outcome) + total
+    end)
+  end
+
+  def score_result("X"), do: 0
+  def score_result("Y"), do: 3
+  def score_result("Z"), do: 6
+
+  def response("A", "Y"), do: "X"
+  def response("B", "Y"), do: "Y"
+  def response("C", "Y"), do: "Z"
+
+  def response("A", "X"), do: "Z"
+  def response("B", "X"), do: "X"
+  def response("C", "X"), do: "Y"
+
+  def response("A", "Z"), do: "Y"
+  def response("B", "Z"), do: "Z"
+  def response("C", "Z"), do: "X"
+
+  def answer2() do
+    input()
+    |> answer2()
+  end
 end
