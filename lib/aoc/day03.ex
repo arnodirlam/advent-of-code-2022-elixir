@@ -67,4 +67,43 @@ defmodule Aoc.Day03 do
     input()
     |> answer()
   end
+
+  def input2() do
+    ["priv", "inputs", "day03b.txt"]
+    |> Path.join()
+    |> Path.relative()
+    |> File.read!()
+    |> String.split("\n")
+    |> Enum.map(fn
+      "" -> ""
+      line -> to_priorities(line)
+    end)
+    |> Enum.chunk_every(3)
+  end
+
+  @doc """
+  Now we need to find the one common priority among each group of 3 rucksacks.
+  The sum of each is returned.
+
+  ## Examples
+
+      iex> answer2([[[1, 2, 3], [3, 4, 5], [1, 3, 5]]])
+      3
+  """
+  def answer2(enum) do
+    Enum.reduce(enum, 0, fn rucksacks, total ->
+      [priority] =
+        rucksacks
+        |> Enum.map(&MapSet.new/1)
+        |> Enum.reduce(&MapSet.intersection/2)
+        |> Enum.to_list()
+
+      priority + total
+    end)
+  end
+
+  def answer2() do
+    input2()
+    |> answer2()
+  end
 end
