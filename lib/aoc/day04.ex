@@ -47,4 +47,24 @@ defmodule Aoc.Day04 do
     input()
     |> answer()
   end
+
+  @doc """
+  Like `answer`, but counting pairs for which the ranges overlap.
+
+  ## Examples
+
+      iex> answer2([[1..3, 2..3], [1..3, 2..4], [1..3, 1..1], [1..3, 4..6]])
+      3
+  """
+  def answer2(enum) do
+    enum
+    |> Enum.count(fn [range1, range2] ->
+      not Range.disjoint?(range1, range2)
+    end)
+  end
+
+  def answer2() do
+    input()
+    |> answer2()
+  end
 end
