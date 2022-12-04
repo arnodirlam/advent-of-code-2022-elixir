@@ -16,7 +16,7 @@ defmodule Util.Range do
       false
   """
   def contains?(%Range{first: start1, last: end1}, %Range{first: start2, last: end2})
-      when start1 < end1 and start2 < end2 do
+      when start1 <= end1 and start2 <= end2 do
     start1 <= start2 and end1 >= end2
   end
 end
